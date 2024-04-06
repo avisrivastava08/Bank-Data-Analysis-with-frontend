@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Gold Price Hystograph</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+</head>
+<body>
+  <canvas id="goldPriceHystograph"></canvas>
+
+  <script>
+    // Historical gold price data
+    const historicalGoldPrices = [
+      { date: new Date("2010-01-01"), price: 1087.25 },
+      { date: new Date("2011-01-01"), price: 1348.15 },
+      { date: new Date("2012-01-01"), price: 1640.95 },
+      // ... more historical data points
+    ];
+
+    // Predicted drop and rise of gold prices
+    const predictedGoldPrices = [
+      { date: new Date("2023-11-28"), price: 1750 },
+      { date: new Date("2024-01-01"), price: 1680 },
+      { date: new Date("2024-06-30"), price: 1850 },
+      // ... more predicted data points
+    ];
+
+    // Prepare chart data
+    const chartData = {
+      labels: historicalGoldPrices.map(data => data.date),
+      datasets: [
+        {
+          label: "Historical Gold Prices",
+          data: historicalGoldPrices.map(data => data.price),
+          type: "line",
+          borderColor: "#FFD700",
+          borderWidth: 2
+        },
+        {
+          label: "Predicted Drop",
+          data: predictedGoldPrices.map(data => data.price - 50),
+          type: "line",
+          fill: true,
+          backgroundColor: "rgba(255, 165, 0, 0.2)",
+          borderColor: "transparent",
+          borderWidth: 0
+        },
+        {
+          label: "Predicted Rise",
+          data: predictedGoldPrices.map(data => data.price + 50),
+          type: "line",
+          fill: true,
+          backgroundColor: "rgba(255, 165, 0, 0.2)",
+          borderColor: "transparent",
+          borderWidth: 0
+        }
+      ]
+    };
+
+    // Create the hystograph chart
+    const chartElement = document.getElementById("goldPriceHystograph");
+    const ctx = chartElement.getContext("2d");
+    const chart = new Chart(ctx, {
+      type: "line",
+      data: chartData,
+      options: {
+        scales: {
+          xAxes: [{
+            type: "time",
+            distribution: "linear",
+            ticks: {
+              autoSkip: false, // Display all timestamps
+              maxRotation: 0 // Prevent timestamp labels from rotating
+            }
+          }]
+        }
+      }
+    });
+  </script>
+</body>
+</html>
